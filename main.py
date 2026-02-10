@@ -67,6 +67,8 @@ def paint_graph_RQ(number, to_paint):
         plt.errorbar(q_es, r_es, sigma_q_es, sigma_r_es, fmt='.', ecolor='black', zorder=1)
     spp.append((number, k, dk, b, db))
 
+    return (k, dk, b, db)
+
     #print(f"T: {number * 10} °C, k: {round(k, 6)}, sigma_k: {round(dk, 7)}, varepsilon_k: {round((dk/k) * 100, 3)} , R_0: {round(b, 3)}, sigma_R0: {round(db, 3)}, varepsilon_b: {round((db/b) * 100, 3)}")
 
 
@@ -78,13 +80,28 @@ def paint_graph_RT(sp, to_paint):
     if to_paint:
         plt.plot(np.array(t_es), k * np.array(t_es) + b, color='blue')
         plt.errorbar(t_es, r_es, 0, sR_es, fmt='.', ecolor='black', zorder=1)
+    
+    alpha = (1/b) * k
+    print(f""" k: {round(k * 100, 2)}, dk: {round(dk * 100, 2)}, b: {round(b, 3)}, b: {round(db, 3)}, \\alpha: {round(alpha * 1000, 3)}, \\sigma_a: {round(calc_sigma_2(dk, db, k, b, alpha) * 1000, 3)},  
+""")
+    return k, dk, b, db
+
+
+
+
+RQ_sp = []
+
 
 
 for i in range(2, 8):
     paint_graph_RQ(i, False)
 
 
-paint_graph_RT(spp, True)
+RT_k, RT_dk, RT_b, RT_db = paint_graph_RT(spp, True)
+
+
+for i in range(2, 8):
+    RQ_sp.append(paint_graph_RQ(i, False))
 
 
 print(last_table(spp))

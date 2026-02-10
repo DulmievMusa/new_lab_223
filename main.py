@@ -8,7 +8,7 @@ from mnk import *
 
 spp = []
 
-def paint_graph(number):
+def paint_graph_RQ(number, to_paint):
     linear_data = pd.read_csv(f'data/{number}0.csv')
     i_es, u_es = list(linear_data['I']), list(linear_data['U'])
     n = len(i_es)
@@ -60,21 +60,37 @@ def paint_graph(number):
     colors = ['b', 'g', 'r', 'm', 'c', 'y']
 
 
-    plt.plot(np.array(q_es), k * np.array(q_es) + b, color=colors[number - 2], label=f"{number}0°C",
-              linestyle=styles[number - 2], marker=markers[number - 2],
-                markersize=msizes[number - 2])
-    plt.errorbar(q_es, r_es, sigma_q_es, sigma_r_es, fmt='.', ecolor='black', zorder=1)
+    if to_paint:
+        plt.plot(np.array(q_es), k * np.array(q_es) + b, color=colors[number - 2], label=f"{number}0°C",
+                linestyle=styles[number - 2], marker=markers[number - 2],
+                    markersize=msizes[number - 2])
+        plt.errorbar(q_es, r_es, sigma_q_es, sigma_r_es, fmt='.', ecolor='black', zorder=1)
     spp.append((number, k, dk, b, db))
 
     #print(f"T: {number * 10} °C, k: {round(k, 6)}, sigma_k: {round(dk, 7)}, varepsilon_k: {round((dk/k) * 100, 3)} , R_0: {round(b, 3)}, sigma_R0: {round(db, 3)}, varepsilon_b: {round((db/b) * 100, 3)}")
 
+
+def paint_graph_RT(sp, to_paint):
+    r_es, sR_es, t_es = find_R_sR_T(sp)
+
+    k, b, dk, db = linear_regression(t_es, r_es)
+
+    if to_paint:
+        plt.plot(np.array(t_es), k * np.array(t_es) + b, color='blue')
+        plt.errorbar(t_es, r_es, 0, sR_es, fmt='.', ecolor='black', zorder=1)
+
+
 for i in range(2, 8):
-    paint_graph(i)
+    paint_graph_RQ(i, False)
+
+
+paint_graph_RT(spp, True)
+
 
 print(last_table(spp))
 
 
-plt.xlabel('Q, мВт')
+plt.xlabel('T, °С')
 plt.ylabel('R, Ом')
 
 plt.grid()

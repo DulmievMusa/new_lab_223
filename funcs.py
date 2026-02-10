@@ -15,6 +15,20 @@ def calc_sigma_2(sigma_x, sigma_y, x, y, O):
     return sqrt((sigma_x/x) ** 2 + (sigma_y/y) ** 2) * O
 
 
+# (number, k, dk, b, db)
+def find_R_sR_T(sp):
+    r_es = []
+    sR_es = []
+    t_es = []
+    for i in range(2, 8):
+        r_es.append(sp[i - 2][3])
+        sR_es.append(sp[i - 2][4])
+        t_es.append(sp[i -2 ][0] * 10)
+        
+    return (r_es, sR_es, t_es)
+
+
+
 
 
 def generate_latex_table(i_es, u_es, r_es):

@@ -81,7 +81,7 @@ def paint_graph_RT(sp, to_paint):
 
     if to_paint:
         plt.plot(np.array(t_es), k * np.array(t_es) + b, color='blue')
-        plt.errorbar(t_es, r_es, 0, sR_es, fmt='.', ecolor='black', zorder=1)
+        plt.errorbar(t_es, r_es, sR_es, 0, fmt='.', ecolor='black', zorder=1)
     
     alpha = (1/b) * k
     print(f""" k: {round(k * 100, 2)}, dk: {round(dk * 100, 2)}, b: {round(b, 3)}, b: {round(db, 3)}, \\alpha: {round(alpha * 1000, 3)}, \\sigma_a: {round(calc_sigma_2(dk, db, k, b, alpha) * 1000, 3)},  
@@ -105,6 +105,7 @@ def paint_ln_graph(data, to_paint):
     if to_paint:
         plt.plot(np.array(t_es), k * np.array(t_es) + b, color='blue')
         plt.errorbar(t_es, k_es, sigma_es, 0, fmt='.', ecolor='black', zorder=1)
+    print("LNNNNNN")
     print(f'k: {k}, dk: {dk}')
     
 
@@ -119,7 +120,9 @@ for i in range(2, 8):
     paint_graph_RQ(i, False)
 
 
-RT_k, RT_dk, RT_b, RT_db = paint_graph_RT(spp, False)
+RT_k, RT_dk, RT_b, RT_db = paint_graph_RT(spp, True)
+
+#print(f"k: {RT_k}, dk: {RT_dk}, b: {RT_b}, db: {RT_db}, alpha: {RT_k / RT_b}, dalpha: {calc_sigma_2(RT_dk, RT_db, RT_k, RT_b, RT_k / RT_b)}")
 
 
 for i in range(2, 8):
@@ -138,7 +141,7 @@ paint_ln_graph(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_d
 
 something = table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[1]
 
-print(make_result_table(something[1], something[2]))
+#print(make_result_table(something[1], something[2]))
 
 
 

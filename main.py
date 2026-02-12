@@ -130,11 +130,15 @@ const = log(7000/50) / (2 * math.pi * 0.4)
 
 
 print('need')
-print(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[0])
+#print(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[0])
 
 paint_kT(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[1], False)
 
-paint_ln_graph(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[1], True)
+paint_ln_graph(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[1], False)
+
+something = table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[1]
+
+print(make_result_table(something[1], something[2]))
 
 
 

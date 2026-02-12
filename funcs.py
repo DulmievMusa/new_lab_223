@@ -178,6 +178,32 @@ def table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db):
 
 
 
+def make_result_table(k_exp, dk_exp):
+    t_es = [i * 10 + 273 for i in range(2, 8)]
+    k_teores = [25.4, 26.2, 26.9, 27.7, 28.5, 29.2]
+    vstavka = ""
+    for i in range(0, 6):
+        
+        vstavka += f"""{t_es[i]} & {k_exp[i]} & {k_teores[i]} & {dk_exp[i]} & {(dk_exp[i]/ k_exp[i]) * 100} \\\\
+    \\hline \n"""
+        text = f"""\\begin{'{table}'}[H]
+            \\begin{'{center}'}
+            \\begin{'{tabular}'}{'{|c|c|c|c|c|}'}
+            \\hline
+            \\rule{'{0pt}'}{'{12pt}'}
+            $T, \\,^\\circ \\text{'{C}'}$ & $k_\\text{'{эксп}'}, \\frac{'{мВт}'}{'{м \\cdot K}'}$ & $k_\\text{'{теор}'}, \\frac{'{мВт}'}{'{м \\cdot K}'}$ & $\\sigma_k, \\frac{'{мВт}'}{'{м \\cdot K}'}$ & $\\varepsilon_k$, \\% \\\\
+            \\hline
+            {vstavka}
+            \\end{'{tabular}'}
+            \\end{'{center}'}
+            \\caption{'Коэффициенты теплопроводности воздуха\\ при атмосферном давлении для исследуемых температур'}
+            \\end{'{table}'}"""
+    return text
+
+
+
+
+
 
 
 

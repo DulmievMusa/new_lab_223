@@ -1,4 +1,5 @@
-from math import sqrt
+from math import *
+import math
 
 
 
@@ -132,5 +133,38 @@ T, $\\circ$ C & $\\frac{'{dR}'}{'{dQ}'}, \\frac{'{\\text{Ом}}{\\text{Вт}}'}$
 \\caption{'Сопротивления $R_0$ и коэффициенты $\\frac{dR}{dQ}$ для исследуемых температур'}
 \\end{'{table}'}"""
     return text
+
+
+
+
+def table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db):
+    const = log(7000/50) / (2 * math.pi * 0.4)
+    vstavka = ""
+    for i in range(2, 8):
+        coefficient, dk, b, db = RQ_sp[i - 2]
+        k = (RT_k/ coefficient) * const
+
+        sigma = sqrt((dk/coefficient) ** 2 + (RT_dk / RT_k) ** 2 + (2/400) ** 2) * k
+
+        epsilon = sigma / k
+        vstavka += f"""{i * 10} & {round(k, 2)} & {round(sigma, 2)} & {round(epsilon * 100, 2)} \\\\
+\\hline \n"""
+        
+    text = f"""\\begin{'{table}'}[H]
+            \\begin{'{center}'}
+            \\begin{'{tabular}'}{'{|c|c|c|c|}'}
+            \\hline
+            \\rule{'{0pt}'}{'{12pt}'}
+            "$T, \\,^\\circ \\text{'{C}'}$ & $k, \\frac{'\\text{мВт}'}{'\\text{м} \\cdot \\text{K}'}$ & $\\sigma_k, \\frac{'\\text{мВт}'}{'\\text{м} \\cdot \\text{K}'}$ & $\\varepsilon_k$, \\%$\\\\
+            \\hline
+            {vstavka}
+            \\end{'{tabular}'}
+            \\end{'{center}'}
+            \\caption{'Коэффициенты теплопроводности воздуха\\ при атмосферном давлении для исследуемых температур'}
+            \\end{'{table}'}"""
+    return text
+        #print(f'T: {i*10}, k: {k}, sigma_k {sigma}, epsilon_k {epsilon * 100}')
+
+
 
 

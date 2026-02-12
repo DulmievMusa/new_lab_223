@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 from math import sqrt
+from math import log
+import math
 
 import matplotlib.pyplot as plt
 from funcs import *
@@ -104,7 +106,17 @@ for i in range(2, 8):
     RQ_sp.append(paint_graph_RQ(i, False))
 
 
-print(last_table(spp))
+const = log(7000/50) / (2 * math.pi * 0.4)
+
+
+print('need')
+print(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db))
+
+
+
+
+
+#print(last_table(spp))
 
 
 plt.xlabel('T, °С')

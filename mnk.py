@@ -181,3 +181,9 @@ def linear_fit(x, y):
     sigma_b = sigma_y * math.sqrt(Sxx / (n * S)) if S > 0 else 0
     
     return k, b, sigma_k, sigma_b
+
+
+
+
+
+    

@@ -89,6 +89,26 @@ def paint_graph_RT(sp, to_paint):
     return k, dk, b, db
 
 
+def paint_kT(sp, to_paint):
+
+    t_es, k_es, sigma_es, epsilon_es = sp
+    if to_paint:
+        plt.errorbar(t_es, k_es, sigma_es, 0, fmt='.', ecolor='black', zorder=1)
+
+
+def paint_ln_graph(data, to_paint):
+    t_es, k_es, sigma_es, epsilon_es = data
+    t_es = [log(i) for i in t_es]
+    k_es = [log(i) for i in k_es]
+    sigma_es =[i/100 for i in epsilon_es]
+    k, b, dk, db = linear_regression(t_es, k_es)
+    if to_paint:
+        plt.plot(np.array(t_es), k * np.array(t_es) + b, color='blue')
+        plt.errorbar(t_es, k_es, sigma_es, 0, fmt='.', ecolor='black', zorder=1)
+    print(f'k: {k}, dk: {dk}')
+    
+
+
 
 
 RQ_sp = []
@@ -99,7 +119,7 @@ for i in range(2, 8):
     paint_graph_RQ(i, False)
 
 
-RT_k, RT_dk, RT_b, RT_db = paint_graph_RT(spp, True)
+RT_k, RT_dk, RT_b, RT_db = paint_graph_RT(spp, False)
 
 
 for i in range(2, 8):
@@ -110,7 +130,17 @@ const = log(7000/50) / (2 * math.pi * 0.4)
 
 
 print('need')
-print(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db))
+print(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[0])
+
+paint_kT(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[1], False)
+
+paint_ln_graph(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db)[1], True)
+
+
+
+
+
+
 
 
 
@@ -119,8 +149,8 @@ print(table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db))
 #print(last_table(spp))
 
 
-plt.xlabel('T, °С')
-plt.ylabel('R, Ом')
+plt.xlabel('ln(T)')
+plt.ylabel('ln(k)')
 
 plt.grid()
 plt.legend()

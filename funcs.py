@@ -138,6 +138,11 @@ T, $\\circ$ C & $\\frac{'{dR}'}{'{dQ}'}, \\frac{'{\\text{Ом}}{\\text{Вт}}'}$
 
 
 def table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db):
+    result = []
+    t_es = []
+    k_es = []
+    sigma_k_es = []
+    epsilon_k_es = []
     const = log(7000/50) / (2 * math.pi * 0.4)
     vstavka = ""
     for i in range(2, 8):
@@ -149,7 +154,12 @@ def table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db):
         epsilon = sigma / k
         vstavka += f"""{i * 10} & {round(k, 2)} & {round(sigma, 2)} & {round(epsilon * 100, 2)} \\\\
 \\hline \n"""
-        
+        #result.append((i * 10, round(k, 2), round(sigma, 2), round(epsilon * 100, 2)))
+        t_es.append(i*10 + 273)
+        k_es.append(round(k, 2))
+        sigma_k_es.append(round(sigma, 2))
+        epsilon_k_es.append(round(epsilon * 100, 2))
+    result = (t_es, k_es, sigma_k_es, epsilon_k_es)
     text = f"""\\begin{'{table}'}[H]
             \\begin{'{center}'}
             \\begin{'{tabular}'}{'{|c|c|c|c|}'}
@@ -162,8 +172,14 @@ def table_coefficient_teploprovodnosti(RQ_sp, RT_k, RT_dk, RT_b, RT_db):
             \\end{'{center}'}
             \\caption{'Коэффициенты теплопроводности воздуха\\ при атмосферном давлении для исследуемых температур'}
             \\end{'{table}'}"""
-    return text
+    return (text, result)
         #print(f'T: {i*10}, k: {k}, sigma_k {sigma}, epsilon_k {epsilon * 100}')
+
+
+
+
+
+
 
 
 
